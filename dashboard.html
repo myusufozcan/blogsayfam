@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="y.png">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <style>
+      header {
+        position: relative;
+        text-align: center;
+        color: white;
+        z-index: 1;
+      }
+  
+      header img {
+        width: 100%; /* Genişliği tam ekran yap */
+        height: auto;
+        position: relative;
+        z-index: -1;
+      }
+  
+      header .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+  
+      header h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        z-index: 2;
+      }
+  
+      main {
+        padding: 40px 20px;
+        font-size: 1.2em;
+        line-height: 1.6;
+      }
+  
+      footer {
+        margin-top: 50px;
+        background-color: #dc3545;
+        padding: 20px;
+        color: white;
+      }
+  
+      .footer-icons a {
+        color: white;
+        font-size: 30px;
+        margin: 0 10px;
+        text-decoration: none;
+      }
+  
+      .footer-icons a:hover {
+        opacity: 0.7;
+      }
+  
+      i {
+        margin-left: 50px;
+        font-size: 45px;
+        color: white;
+      }
+  
+      i:hover {
+        opacity: 0.7;
+      }
+  
+      .featured-blogs {
+        padding: 20px;
+        color: white;
+        z-index: 1;
+      }
+  
+      .featured-blogs h2 {
+        font-size: 1.5em;
+        color: #dc3545;
+      }
+  
+      .featured-blogs ul {
+        list-style: none;
+        padding: 0;
+      }
+  
+      /* Resim ile metin arasındaki hizalama için */
+      .featured-blogs li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px; /* Her blog arasında daha fazla boşluk bırakıyoruz */
+      }
+  
+      /* Öne çıkan bloglarda resimler için stil */
+      .featured-blogs img {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+        object-fit: cover; /* Resmin sabit boyutta olmasını sağlar */
+      }
+      
+      .blog-info {
+        margin-left: 10px;
+      }
+
+      .blog-info a {
+        text-decoration: none;
+        color: #333;
+        font-size: 1.1em;
+      }
+
+      .blog-info a:hover {
+        text-decoration: underline;
+        color: #dc3545;
+      }
+
+      .blog-info p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #666;
+      }
+  
+      .featured-blogs a {
+        text-decoration: none;
+        color: #333;
+        font-size: 1.1em;
+      }
+  
+      .featured-blogs a:hover {
+        text-decoration: underline;
+        color: #dc3545;
+      }
+  
+      .search-results {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        border: 1px solid #ced4da;
+        padding: 10px;
+        border-radius: 5px;
+      }
+  
+      .search-results p {
+        margin: 5px 0;
+      }
+  
+      .search-results a {
+        text-decoration: none;
+        color: #333;
+      }
+  
+      .search-results a:hover {
+        background-color: #f8d7da;
+        padding: 2px 5px;
+        border-radius: 3px;
+      }
+  
+      .register-btn {
+        margin-left: 20px;
+      }
+  
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 1.5em;
+        }
+      }
+  
+      @media (max-width: 576px) {
+        header h1 {
+          font-size: 1.2em;
+        }
+      }
+  
+      /* Modal arka plan rengini gri yapma */
+      .modal-content {
+        background-color: #f0f0f0;
+      }
+  
+      /* Modal başlık rengini kırmızı yapma */
+      .modal-header {
+        background-color: #dc3545;
+        color: #fff;
+      }
+  
+      /* Kapatma düğmesi rengini beyaz yapma */
+      .modal-header .close {
+        color: #fff;
+      }
+
+      .info-before {
+        background-color: #dc3545; /* Açık kırmızımsı bir arka plan rengi */
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px; /* Öne çıkan bloglar ve before arasındaki boşluk */
+      }
+
+      /* After section styling */
+      .info-after {
+        background-color: #dc3545; /* Açık yeşilmsi bir arka plan rengi */
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 15px; /* Öne çıkan bloglar ve after arasındaki boşluk */
+      }
+
+      .info-before p, .info-after p {
+        margin: 0;
+        font-size: 1em;
+        color: #333;
+      }
+  </style>
+  <title>Yusuf Özcan'ın Blog Sayfası-Kullanıcı</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Yusuf Özcan</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Ana Sayfa</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="iletisim.html" target="_blank">İletişim ve Hakkımda</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Bloglar
+                </a>
+                <ul class="dropdown-menu" id="blogDropdownMenu">
+                  <!-- Dinamik olarak bloglar buraya eklenecek -->
+                </ul>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="uyeler.html">Üyeler</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="add_blog.html">Blog Ekle</a>
+            </li>
+            </ul>
+            <form class="d-flex position-relative" id="searchForm" role="search">
+              <input class="form-control me-2" type="search" id="searchInput" placeholder="Blog Ara" aria-label="Ara">
+              <button class="btn btn-outline-dark" type="submit">Ara</button>
+              <div id="searchResults" class="search-results"></div>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="position: relative; text-align: center; color: white;">
+                        <img src="1.jpg" alt="Ana Sayfa" class="img-fluid">
+                        <div class="overlay"></div>
+                        <h1 id="headerUserName">Hoş geldiniz! Blog sayfam için önerileriniz varsa İletişim ve Hakkımda kısmından benimle iletişime geçebilirsiniz.</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <footer class="bg-danger p-5 text-white text-center">
+        <div class="footer-icons">
+            <a href="https://www.instagram.com" target="_blank" class="text-white"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com" target="_blank" class="text-white"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com" target="_blank" class="text-white"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com" target="_blank" class="text-white"><i class="fab fa-github"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+document.getElementById('searchInput').addEventListener('input', async function() {
+    const query = this.value.toLowerCase();
+    const resultsDiv = document.getElementById('searchResults');
+    
+    try {
+        const response = await fetch('http://localhost:8000/blogs/');
+        const data = await response.json();
+        const blogs = data.blogs;
+
+        resultsDiv.innerHTML = '';
+
+        if (query) {
+            const filteredResults = blogs.filter(blog =>
+                blog.title.toLowerCase().includes(query)
+            );
+
+            if (filteredResults.length > 0) {
+                filteredResults.forEach(blog => {
+                    const resultElement = document.createElement('p');
+                    resultElement.innerHTML = `<a href="blogDetails.html?id=${blog.id}">${blog.title}</a>`;
+                    resultsDiv.appendChild(resultElement);
+                });
+                resultsDiv.style.display = 'block';
+            } else {
+                resultsDiv.innerHTML = '<p>Aradığınız terimle eşleşen blog bulunamadı.</p>';
+                resultsDiv.style.display = 'block';
+            }
+        } else {
+            resultsDiv.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error fetching blogs:', error);
+        resultsDiv.innerHTML = '<p>Blogları getirirken bir hata oluştu.</p>';
+        resultsDiv.style.display = 'block';
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Blogları navbar'da güncelle
+  function updateBlogDropdown() {
+    fetch('http://localhost:8000/blogs/')
+      .then(response => response.json())
+      .then(data => {
+        const blogs = data.blogs;
+        const dropdownMenu = document.getElementById('blogDropdownMenu');
+        dropdownMenu.innerHTML = ''; // Menü içeriğini temizle
+
+        blogs.forEach((blog) => {
+          const listItem = document.createElement('li');
+          listItem.className = 'dropdown-item';
+          listItem.innerHTML = `    
+            <a href="blogDetails.html?id=${blog.id}" class="d-flex align-items-center">
+              ${blog.image ? `<img src="${blog.image}" alt="${blog.title}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">` : '<img src="default-image.jpg" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">'}
+              <span>${blog.title}</span> - <span>${blog.author}</span>
+            </a>
+          `;
+          dropdownMenu.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error fetching blogs:', error));
+  }
+
+  // Sayfa yüklendiğinde blogları güncelle
+  updateBlogDropdown();
+});
+    </script>
+</body>
+</html>

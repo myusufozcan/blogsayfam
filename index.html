@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="y.png">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <style>
+        header {
+          position: relative;
+          text-align: center;
+          color: white;
+          z-index: 1;
+        }
+    
+        header img {
+        width: 100%; /* Genişliği tam ekran yap */
+        height: auto;
+        position: relative;
+        z-index: -1;
+        }
+    
+        header .overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1;
+        }
+    
+        header h1 {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 3em;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+          z-index: 2;
+        }
+    
+        main {
+          padding: 40px 20px;
+          font-size: 1.2em;
+          line-height: 1.6;
+        }
+    
+        footer {
+          margin-top: 50px;
+          background-color: #dc3545;
+          padding: 20px;
+          color: white;
+        }
+    
+        .footer-icons a {
+          color: white;
+          font-size: 30px;
+          margin: 0 10px;
+          text-decoration: none;
+        }
+    
+        .footer-icons a:hover {
+          opacity: 0.7;
+        }
+    
+        i {
+          margin-left: 50px;
+          font-size: 45px;
+          color: white;
+        }
+    
+        i:hover {
+          opacity: 0.7;
+        }
+    
+        .featured-blogs {
+          padding: 20px;
+          color: white;
+          z-index: 1;
+        }
+    
+        .featured-blogs h2 {
+          font-size: 1.5em;
+          color: #dc3545;
+        }
+    
+        .featured-blogs ul {
+          list-style: none;
+          padding: 0;
+        }
+    
+        /* Resim ile metin arasındaki hizalama için */
+        .featured-blogs li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px; /* Her blog arasında daha fazla boşluk bırakıyoruz */
+        }
+    
+        /* Öne çıkan bloglarda resimler için stil */
+        .featured-blogs img {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+        object-fit: cover; /* Resmin sabit boyutta olmasını sağlar */
+        }
+        .blog-info {
+  margin-left: 10px;
+}
+
+.blog-info a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.blog-info a:hover {
+  text-decoration: underline;
+  color: #dc3545;
+}
+
+.blog-info p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #666;
+}
+    
+        .featured-blogs a {
+          text-decoration: none;
+          color: #333;
+          font-size: 1.1em;
+        }
+    
+        .featured-blogs a:hover {
+          text-decoration: underline;
+          color: #dc3545;
+        }
+    
+        .search-results {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background-color: #fff;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+          border: 1px solid #ced4da;
+          padding: 10px;
+          border-radius: 5px;
+        }
+    
+        .search-results p {
+          margin: 5px 0;
+        }
+    
+        .search-results a {
+          text-decoration: none;
+          color: #333;
+        }
+    
+        .search-results a:hover {
+          background-color: #f8d7da;
+          padding: 2px 5px;
+          border-radius: 3px;
+        }
+    
+        .register-btn {
+          margin-left: 20px;
+        }
+    
+        @media (max-width: 768px) {
+          header h1 {
+            font-size: 1.5em;
+          }
+        }
+    
+        @media (max-width: 576px) {
+          header h1 {
+            font-size: 1.2em;
+          }
+        }
+    
+        /* Modal arka plan rengini gri yapma */
+        .modal-content {
+          background-color: #f0f0f0;
+        }
+    
+        /* Modal başlık rengini kırmızı yapma */
+        .modal-header {
+          background-color: #dc3545;
+          color: #fff;
+        }
+    
+        /* Kapatma düğmesi rengini beyaz yapma */
+        .modal-header .close {
+          color: #fff;
+        }
+        .info-before {
+  background-color: #dc3545; /* Açık kırmızımsı bir arka plan rengi */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px; /* Öne çıkan bloglar ve before arasındaki boşluk */
+}
+
+/* After section styling */
+.info-after {
+  background-color: #dc3545; /* Açık yeşilmsi bir arka plan rengi */
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 15px; /* Öne çıkan bloglar ve after arasındaki boşluk */
+}
+
+.info-before p, .info-after p {
+  margin: 0;
+  font-size: 1em;
+  color: #333;
+}
+      </style>
+  <title>Yusuf Özcan'ın Blog Sayfası</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Yusuf Özcan</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.html">Ana Sayfa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="iletisim.html" target="_blank">İletişim ve Hakkımda</a>
+          </li>
+          <!-- Bloglarım Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Bloglar
+            </a>
+            <ul class="dropdown-menu" id="blogDropdownMenu">
+              <!-- Dinamik olarak bloglar buraya eklenecek -->
+            </ul>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="uyeler.html">Üyeler</a>
+          </li>
+        </ul>
+        <form class="d-flex position-relative" id="searchForm" role="search">
+          <input class="form-control me-2" type="search" id="searchInput" placeholder="Blog Ara" aria-label="Ara">
+          <button class="btn btn-outline-dark" type="submit">Ara</button>
+          <div id="searchResults" class="search-results"></div>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <header>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8">
+          <div style="position: relative; text-align: center; color: white;">
+            <img src="1.jpg" alt="Ana Sayfa" class="img-fluid">
+            <div class="overlay"></div>
+            <h1>Yusuf Özcan'ın Blog Sayfasına Hoş Geldiniz</h1>
+          </div>
+        </div>
+        <div class="col-md-4 featured-blogs">
+          <!-- Before Section -->
+          <div class="info-before">
+            <p>İlginizi çekebilecek bazı bloglar aşağıda yer almaktadır. Her birini keşfetmek için başlıklarına tıklayabilirsiniz.</p>
+          </div>
+          <h2>Öne Çıkan Bloglar</h2>
+          <ul id="featuredBlogsList">
+            <!-- Öne çıkan bloglar burada yüklenecek -->
+          </ul>
+          <!-- After Section -->
+          <div class="info-after">
+            <p>Daha fazla bilgi ve güncellemeler için blogumu takip etmeyi unutmayın!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Modal for Authentication -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="authModalLabel">Yusuf Özcan'ın Blog Sayfası</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="authForm">
+          <div class="mb-3">
+            <label for="authName" class="form-label">İsim</label>
+            <input type="text" class="form-control" id="authName" placeholder="İsminizi girin" required>
+          </div>
+          <div class="mb-3">
+            <label for="authSurname" class="form-label">Soy İsim</label>
+            <input type="text" class="form-control" id="authSurname" placeholder="Soy isminizi girin" required>
+          </div>
+          <div class="mb-3">
+            <label for="authEmail" class="form-label">E-posta</label>
+            <input type="email" class="form-control" id="authEmail" placeholder="E-posta adresinizi girin" required>
+          </div>
+          <div class="mb-3">
+            <label for="authPassword" class="form-label">Şifre</label>
+            <input type="password" class="form-control" id="authPassword" placeholder="Şifrenizi girin" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Giriş Yap</button>
+        </form>
+      </div>
+      <div class="mb-3">
+        <div class="error" id="authError" style="color: red;"></div>
+      </div>      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Kayıt Ol</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Registration (After) -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerModalLabel">Kayıt Ol</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="registrationForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">İsim</label>
+            <input type="text" class="form-control" id="name" placeholder="İsminizi girin" required>
+            <div class="error" id="nameError"></div>
+          </div>
+          <div class="mb-3">
+            <label for="surname" class="form-label">Soy isim</label>
+            <input type="text" class="form-control" id="surname" placeholder="Soy isminizi girin" required>
+            <div class="error" id="surnameError"></div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">E-posta Adresiniz</label>
+            <input type="email" class="form-control" id="email" placeholder="E-posta adresinizi girin" required>
+            <div class="error" id="emailError"></div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Şifre</label>
+            <input type="password" class="form-control" id="password" placeholder="Şifrenizi girin" required>
+            <div class="error" id="passwordError"></div>
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Şifre Tekrar</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Şifrenizi tekrar girin" required>
+            <div class="error" id="confirmPasswordError"></div>
+          </div>
+          <div class="mb-3">
+            <label for="city" class="form-label">Şehir (isteğe bağlı)</label>
+            <input type="text" class="form-control" id="city" placeholder="Şehir bilgisi girin (isteğe bağlı)">
+          </div>
+          <button type="submit" class="btn btn-primary">Üye Ol</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <main>
+    <p>Hoş geldiniz! Bloglara bakmak için menüden Bloglar başlığına tıklayabilirsiniz.Ayrıca blog eklemek isterseniz lütfen üye olun.</p>
+  </main>
+  <footer class="bg-danger p-5 text-white text-center">
+    <a href="https://www.instagram.com" target="_blank" class="text-white"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.youtube.com" target="_blank" class="text-white"><i class="fab fa-youtube"></i></a>
+    <a href="https://www.linkedin.com" target="_blank" class="text-white"><i class="fab fa-linkedin"></i></a>
+    <a href="https://github.com" target="_blank" class="text-white"><i class="fab fa-github"></i></a>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz4fnFO9Z69JKmgW6Q5bth5JHISlQ5U06I3tD3UJ8sE4dUe72JAXuM6gL1" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-tnb4PTFffzL5fP4WBw9PE+kPKSgU02MmzVGA3f5LzO5i0zW5N4L0rAVuFokm1JvH" crossorigin="anonymous"></script>
+    <script>
+document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Formun varsayılan submit davranışını engelle
+});
+
+document.getElementById('searchInput').addEventListener('input', async function() {
+    const query = this.value.toLowerCase();
+    const resultsDiv = document.getElementById('searchResults');
+    
+    try {
+        const response = await fetch('http://localhost:8000/blogs/');
+        const data = await response.json();
+        const blogs = data.blogs;
+
+        resultsDiv.innerHTML = '';
+
+        if (query) {
+            const filteredResults = blogs.filter(blog =>
+                blog.title.toLowerCase().includes(query)
+            );
+
+            if (filteredResults.length > 0) {
+                filteredResults.forEach(blog => {
+                    const resultElement = document.createElement('p');
+                    resultElement.innerHTML = `<a href="blogDetails.html?id=${blog.id}">${blog.title}</a>`;
+                    resultsDiv.appendChild(resultElement);
+                });
+                resultsDiv.style.display = 'block';
+            } else {
+                resultsDiv.innerHTML = '<p>Aradığınız terimle eşleşen blog bulunamadı.</p>';
+                resultsDiv.style.display = 'block';
+            }
+        } else {
+            resultsDiv.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error fetching blogs:', error);
+        resultsDiv.innerHTML = '<p>Blogları getirirken bir hata oluştu.</p>';
+        resultsDiv.style.display = 'block';
+    }
+});
+      document.addEventListener('DOMContentLoaded', function() {
+  // Modal'ı göster
+  var myModal = new bootstrap.Modal(document.getElementById('authModal'), {
+    keyboard: false
+  });
+  myModal.show();
+
+  // Blogları navbar'da güncelle
+  function updateBlogDropdown() {
+    fetch('http://127.0.0.1:8000/blogs/')
+      .then(response => response.json())
+      .then(data => {
+        const blogs = data.blogs;
+        const dropdownMenu = document.getElementById('blogDropdownMenu');
+        dropdownMenu.innerHTML = ''; // Menü içeriğini temizle
+
+        blogs.forEach((blog) => {
+          const listItem = document.createElement('li');
+          listItem.className = 'dropdown-item';
+          listItem.innerHTML = `    
+            <a href="blogDetails.html?id=${blog.id}" class="d-flex align-items-center">
+              ${blog.image ? `<img src="${blog.image}" alt="${blog.title}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">` : '<img src="default-image.jpg" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">'}
+              <span>${blog.title}</span> - <span>${blog.author}</span>
+            </a>
+          `;
+          dropdownMenu.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error fetching blogs:', error));
+  }
+
+  // Öne Çıkan Bloglar'ı güncelleme
+  function loadFeaturedBlogs() {
+    fetch('http://127.0.0.1:8000/featured-blogs/')
+      .then(response => response.json())
+      .then(data => {
+        const featuredBlogsContainer = document.querySelector('.featured-blogs ul');
+        featuredBlogsContainer.innerHTML = ''; // Mevcut listeyi temizle
+
+        data.featured_blogs.forEach(blog => {
+          const listItem = document.createElement('li');
+          listItem.innerHTML = `
+            <a href="blogDetails.html?id=${blog.id}" class="d-flex align-items-center">
+              <img src="${blog.image}" alt="${blog.title}" style="width: 100px; height: 100px; object-fit: cover;">
+              <div class="blog-info">
+                <span>${blog.title}</span>
+                <p>Yazar: ${blog.author}</p>
+              </div>
+            </a>
+          `;
+          featuredBlogsContainer.appendChild(listItem);
+        });
+      })
+      .catch(error => {
+        console.error('Öne çıkan bloglar yüklenirken bir hata oluştu:', error);
+      });
+  }
+
+  // Blog ID'yi URL'den al ve detayları fetch et
+  function loadBlogDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const blogId = urlParams.get('id');
+    
+    console.log('Blog ID:', blogId); // Blog ID'yi kontrol edin
+
+    if (blogId) {
+      fetch(`http://127.0.0.1:8000/blogs/${blogId}/`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Blog Data:', data); // Blog verilerini kontrol edin
+
+          if (data.blog) {
+            document.getElementById('blogTitle').textContent = data.blog.title;
+            document.getElementById('blogImage').src = data.blog.image || 'default-image.jpg'; // Varsayılan resim kullanımı
+            document.getElementById('blogContent').textContent = data.blog.content;
+            document.getElementById('blogAuthor').textContent = data.blog.author;
+          } else {
+            document.getElementById('blogTitle').textContent = 'Blog bulunamadı';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching blog details:', error);
+          document.getElementById('blogTitle').textContent = 'Blog bulunamadı';
+        });
+    }
+  }
+
+  // Sayfa yüklendiğinde blogları güncelle ve detayları yükle
+  updateBlogDropdown();
+  loadFeaturedBlogs();
+  loadBlogDetails();
+});
+
+document.getElementById('authForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Formun normal submit edilmesini engeller
+
+  // Form verilerini al
+  const name = document.getElementById('authName').value.trim();
+  const surname = document.getElementById('authSurname').value.trim();
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+
+  // Form verilerini doğrula
+  if (name === '' || surname === '' || email === '' || password === '') {
+    document.getElementById('authError').innerText = 'Tüm alanlar doldurulmalıdır.';
+    return;
+  }
+
+  // Giriş isteğini API'ye gönder
+  fetch('http://127.0.0.1:8000/login/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, surname, email, password })
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.text().then(text => {
+        throw new Error(text || 'Network response was not ok');
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Başarılı giriş
+    if (data.success) {
+      window.location.href = 'dashboard.html'; // Kullanıcının kişisel ekranına yönlendirme
+    } else {
+      throw new Error('Giriş başarısız: ' + data.message);
+    }
+  })
+  .catch(error => {
+    // Hata mesajı göster
+    document.getElementById('authError').innerText = 'Kullanıcı bulunamadı veya şifre yanlış.';
+    console.error('Error:', error);
+  });
+});
+
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form from submitting normally
+
+  // Clear previous error messages
+  document.getElementById('nameError').innerText = '';
+  document.getElementById('surnameError').innerText = '';
+  document.getElementById('emailError').innerText = '';
+  document.getElementById('passwordError').innerText = '';
+  document.getElementById('confirmPasswordError').innerText = '';
+
+  // Get form values
+  const name = document.getElementById('name').value.trim();
+  const surname = document.getElementById('surname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const city = document.getElementById('city').value.trim();
+
+  let hasError = false;
+
+  // Validate form data
+  if (name === '') {
+    document.getElementById('nameError').innerText = 'İsim boş olamaz.';
+    hasError = true;
+  }
+  if (surname === '') {
+    document.getElementById('surnameError').innerText = 'Soyisim boş olamaz.';
+    hasError = true;
+  }
+  if (email === '') {
+    document.getElementById('emailError').innerText = 'E-posta boş olamaz.';
+    hasError = true;
+  }
+  if (password === '') {
+    document.getElementById('passwordError').innerText = 'Şifre boş olamaz.';
+    hasError = true;
+  }
+  if (confirmPassword === '') {
+    document.getElementById('confirmPasswordError').innerText = 'Şifre tekrar boş olamaz.';
+    hasError = true;
+  } else if (password !== confirmPassword) {
+    document.getElementById('confirmPasswordError').innerText = 'Şifreler eşleşmiyor.';
+    hasError = true;
+  }
+
+  if (!hasError) {
+    // Send form data to API
+    fetch('http://127.0.0.1:8000/register/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, surname, email, password, city })
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text || 'Network response was not ok');
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert('Kayıt başarılı!');
+      console.log(data);
+    })
+    .catch(error => {
+      alert('Bir hata oluştu: ' + error.message);
+      console.error('Error:', error);
+    });
+  }
+});
+
+  </script>
+  </body>
+  </html>
